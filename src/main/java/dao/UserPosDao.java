@@ -2,6 +2,7 @@ package dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 
 import conexaojdbc.SingleConnection;
 import model.UserPosJava;
@@ -19,16 +20,21 @@ public class UserPosDao {
 		try {
 			String sql = "Insert into userPosJava(id, nome, email) values (?,?,?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
-			
+
 			insert.setLong(1, userPosJava.getId());
 			insert.setString(2, userPosJava.getNome());
 			insert.setString(3, userPosJava.getEmail());
-			
+
 			insert.execute();
-			//Salva no banco
-			connection.commit(); 
+			// Salva no banco
+			connection.commit();
 
 		} catch (Exception e) {
+			try {
+				connection.rollback(); // Reverte a operação caso ocorra algum erro
+			} catch (SQLException ex) {
+				ex.printStackTrace();
+			}
 			e.printStackTrace();
 		}
 	}
