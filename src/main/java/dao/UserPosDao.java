@@ -36,6 +36,7 @@ public class UserPosDao {
 			try {
 				// Reverte a operação caso ocorra algum erro
 				connection.rollback();
+
 			} catch (SQLException ex) {
 				ex.printStackTrace();
 			}
@@ -82,6 +83,25 @@ public class UserPosDao {
 		}
 		return retorno;
 
+	}
+
+	public void atualizar(UserPosJava userPosJava) {
+		try {
+			String sql = "update userposjava set nome = ? where id =" + userPosJava.getId();
+
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setString(3, userPosJava.getNome());
+			statement.execute();
+			connection.commit();
+
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
 	}
 
 }
