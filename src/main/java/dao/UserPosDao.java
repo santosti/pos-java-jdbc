@@ -21,12 +21,11 @@ public class UserPosDao {
 
 	public void salvar(UserPosJava userPosJava) {
 		try {
-			String sql = "Insert into userPosJava(id, nome, email) values (?,?,?)";
+			String sql = "Insert into userPosJava(nome, email) values (?,?)";
 			PreparedStatement insert = connection.prepareStatement(sql);
 
-			insert.setLong(1, userPosJava.getId());
-			insert.setString(2, userPosJava.getNome());
-			insert.setString(3, userPosJava.getEmail());
+			insert.setString(1, userPosJava.getNome());
+			insert.setString(2, userPosJava.getEmail());
 
 			insert.execute();
 			// Salva no banco
@@ -90,7 +89,7 @@ public class UserPosDao {
 			String sql = "update userposjava set nome = ? where id =" + userPosJava.getId();
 
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(3, userPosJava.getNome());
+			statement.setString(1, userPosJava.getNome());
 			statement.execute();
 			connection.commit();
 
