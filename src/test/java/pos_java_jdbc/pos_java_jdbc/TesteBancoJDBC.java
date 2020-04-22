@@ -48,19 +48,29 @@ public class TesteBancoJDBC {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@Test
 	public void initAtualizar() {
 		try {
 			UserPosDao dao = new UserPosDao();
-			
+
 			UserPosJava objetoBanco = dao.buscar(5L);
 			objetoBanco.setNome("teste2");
 			dao.atualizar(objetoBanco);
-			
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	@Test
+	public void initDeletar() {
+		try {
+			UserPosDao dao = new UserPosDao();
+			dao.deletar(null); // Insere a id a ser deletada aqui.
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }
