@@ -119,7 +119,8 @@ public class UserPosDao {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet resultSet = statement.executeQuery();
 
-			//Para cada linha vai instanciar um novo objeto vai setar os dados e colocar na lista
+			// Para cada linha vai instanciar um novo objeto vai setar os dados e colocar na
+			// lista
 			while (resultSet.next()) {
 				BeanUserFone userFone = new BeanUserFone();
 
@@ -167,6 +168,30 @@ public class UserPosDao {
 				e1.printStackTrace();
 			}
 			e.printStackTrace();
+		}
+	}
+
+	// Excluindo um registro em cascata
+	public void deleteFonesPorUser(Long idUser) {
+		try {
+			String slqFone = " delete from telefoneuser where usuariopessoa = " + idUser;
+			String slqUser = " delete from userposjava where id = " + idUser;
+
+			PreparedStatement statement = connection.prepareStatement(slqFone);
+			statement.executeUpdate();
+			connection.commit();
+			
+			statement = connection.prepareStatement(slqUser);
+			statement.executeUpdate();
+			connection.commit();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 		}
 	}
 
