@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import conexaojdbc.SingleConnection;
+import model.BeanUserFone;
 import model.Telefone;
 import model.UserPosJava;
 
@@ -104,6 +105,33 @@ public class UserPosDao {
 		}
 		return retorno;
 
+	}
+
+	public List<BeanUserFone> listaUserFone(Long idUser) {
+		List<BeanUserFone> beanUserFones = new ArrayList<BeanUserFone>();
+
+		String sql = " select nome, numero, email from telefoneuser as fone ";
+		sql += " inner join userposjava as userp ";
+		sql += " on fone.usuariopessoa = userp.id ";
+		sql += "where userp.id = " + idUser;
+
+		try {
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet resultSet = statement.executeQuery();
+
+			//Para cada linha vai instanciar um novo objeto vai setar os dados e colocar na lista
+			while (resultSet.next()) {
+				BeanUserFone userFone = new BeanUserFone();
+
+				userFone.setNome(resultSet.getString("nome"));
+				userFone.setEmail(resultSet.getString("email"));
+				userFone.setNumero(resultSet.getString("numero"));
+				beanUserFones.add(userFone);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return beanUserFones;
 	}
 
 	public void atualizar(UserPosJava userPosJava) {
